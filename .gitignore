@@ -1,2 +1,3 @@
 telegramToken.py
 *.pyc
+.vscode
