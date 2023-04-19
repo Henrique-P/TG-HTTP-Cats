@@ -1,7 +1,8 @@
 import logging
 from telegram import InlineQueryResultPhoto, Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, ContextTypes, InlineQueryHandler
-from helper import telegramToken, codeIsValid, randomCode
+from helper import codeIsValid, randomCode
+from telegramToken import telegramToken
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
