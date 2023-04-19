@@ -7,9 +7,6 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     await context.bot.send_message(chat_id=update.effective_chat.id, text="I send you cats from https://http.cat/. Just send me a message with a number.")
-
 async def cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     codeNumber = update.message.text
     if codeNumber.isdigit(): 
