@@ -13,8 +13,7 @@ async def cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
         codeNumber = int(codeNumber)
         if (codeNumber > 99 and codeNumber < 600):
             await update.message.reply_photo(f"https://http.cat/{codeNumber}")
-    else:
-        await update.message.reply_photo("https://http.cat/400")
+
 
 async def inline_cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query.query
@@ -31,8 +30,7 @@ async def inline_cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
             ]
             await update.inline_query.answer(results)
-    else: 
-        await update.message.reply_photo("https://http.cat/400")
+
 if __name__ == '__main__':
     application = ApplicationBuilder().token('1925390535:AAE22472__rqBTMs0rMqkb9RkALO1P0oiWY').build()
     cat_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), cat)
