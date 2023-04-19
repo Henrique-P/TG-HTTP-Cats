@@ -1,6 +1,7 @@
 import logging
 from telegram import InlineQueryResultPhoto, Update
-from telegram.ext import filters, MessageHandler, ApplicationBuilder, ContextTypes, CommandHandler, InlineQueryHandler
+from telegram.ext import filters, MessageHandler, ApplicationBuilder, ContextTypes, InlineQueryHandler
+from helper import telegramToken, codeIsValid, randomCode
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -9,32 +10,30 @@ logging.basicConfig(
 
 async def cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     codeNumber = update.message.text
-    if codeNumber.isdigit(): 
-        codeNumber = int(codeNumber)
-        if (codeNumber > 99 and codeNumber < 600):
-            await update.message.reply_photo(f"https://http.cat/{codeNumber}")
-
+    if (codeIsValid(codeNumber)):
+        await update.message.reply_photo(f"https://http.cat/{codeNumber}")
+    else:
+       await update.message.reply_text(text="This code does not exist. Here's a random one instead:")
+       await update.message.reply_photo(f"https://http.cat/{randomCode()}")
+                
 
 async def inline_cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query.query
     if not query:
         return
-    if query.isdigit(): 
-        codeNumber = int(query)
-        if (codeNumber > 99 and codeNumber < 600):
-            results = [
-                InlineQueryResultPhoto(
-                id = query,
-                thumbnail_url = f"https://http.cat/{query}",
-                photo_url = f"https://http.cat/{query}",
-            )
-            ]
-            await update.inline_query.answer(results)
+    results = [
+        InlineQueryResultPhoto(
+        id = query,
+        thumbnail_url = f"https://http.cat/{query}",
+        photo_url = f"https://http.cat/{query}",
+    )
+    ]
+    await update.inline_query.answer(results)
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token('1925390535:AAE22472__rqBTMs0rMqkb9RkALO1P0oiWY').build()
-    cat_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), cat)
-    inline_cat_handler = InlineQueryHandler(inline_cat)
+    application = ApplicationBuilder().token(telegramToken).build()
+    cat_handler = MessageHandler(filters.TEXT & (~filters.COMMAND) & filters.Regex(r'(^[1-5]\d{2}$)'), cat)
+    inline_cat_handler = InlineQueryHandler(inline_cat, r'([1-5]\d{2}$)')
     application.add_handler(cat_handler)
     application.add_handler(inline_cat_handler)
     application.run_polling()
