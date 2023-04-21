@@ -16,6 +16,5 @@ def codeOptions(input):
     for code in validCodes:
         if code.startswith(input):
             optionsList.append(code)
-    print (optionsList)
     return optionsList
     
