@@ -13,9 +13,11 @@ async def cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     codeNumber = update.message.text
     if (codeIsValid(codeNumber)):
         await update.message.reply_photo(f"https://http.cat/{codeNumber}")
+        print(f"Kitty {codeNumber} sent to @{update.message.from_user.username}")
     else:
        await update.message.reply_text(text="This code does not exist. Here's a random one instead:")
        await update.message.reply_photo(f"https://http.cat/{randomCode()}")
+       print(f"Random kitty sent @{update.message.from_user.username}")
                 
 
 async def inline_cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -33,6 +35,7 @@ async def inline_cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         
     await update.inline_query.answer(results)
+    print(f'Inline kitty called by @{update.inline_query.from_user.username}')
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(telegramToken).build()
