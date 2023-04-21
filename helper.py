@@ -10,3 +10,12 @@ def codeIsValid(code):
 
 def randomCode():
     return validCodes[randint(0,len(validCodes)-1)]
+
+def codeOptions(input):
+    optionsList = []
+    for code in validCodes:
+        if code.startswith(input):
+            optionsList.append(code)
+    print (optionsList)
+    return optionsList
+    
