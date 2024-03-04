@@ -19,8 +19,7 @@ async def inline_cat(update: Update, context: ContextTypes.DEFAULT_TYPE):
             InlineQueryResultPhoto(
             id = option,
             thumbnail_url = f"https://http.cat/{option}",
-            photo_url = f"https://http.cat/{option}",
-            title = option
+            photo_url = f"https://http.cat/{option}"
             )
         )
     await update.inline_query.answer(results)
